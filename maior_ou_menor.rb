@@ -10,7 +10,9 @@ end
 
 def sorteia_numero
 puts "Estamos escolhendo um numero entre 0 e 200..."
-sorteado = 175
+#sorteado = 175
+# rand devolve um número aleatório entre 0 e 200
+sorteado = rand(200)
 puts "\n"
 puts "Sua vez, advinhe o numero!"
 # return sorteado, ultima instrução sempre será retornada
@@ -56,6 +58,8 @@ boas_vindas
 # variavel global acessar valores do metodo
 numero_secreto = sorteia_numero
 
+pontos_ate_agora = 1000 
+
 limite_tentativas = 5
 #array
 chutes = []
@@ -68,8 +72,19 @@ for tentativa in 1..limite_tentativas
     chutes << chute #<< coloca elemento na ultima posiçao do array
     #total_chutes += 1
 
+    #primeiro executa o que está em parenteses
+    #.0 variavel passa a ser tipo float
+    #.abs retorna o valor absoluto, sem o sinal
+    pontos_a_perder = (chute - numero_secreto).abs / 2.0
+     
+    pontos_ate_agora -= pontos_a_perder
+
+
     break if verifica_chute numero_secreto, chute
     #if verifica_chute numero_secreto, chute
      #   break
     #end
 end
+
+puts "Você ganhou #{pontos_ate_agora} pontos."
+puts "Numero sorteado #{numero_secreto}."
