@@ -1,4 +1,5 @@
 require_relative 'ui' #procura no mesmo diretorio
+require_relative 'rank'
 =begin
 já existe uma funçao para contar caracteres em ruby .count exemplo como fazer manualmente 
 
@@ -16,8 +17,44 @@ def conta(texto, letra)
 end
 =end
 
-def pede_um_chute_valido(erros, chutes)
-    cabecalho_de_tentativa erros, chutes
+def escolhe_palavra_secreta
+    avisa_escolhendo_palavra
+    texto = File.read("C:/workspace/alura/ruby/jogo-da-forca/dicionario.txt")
+    todas_as_palavras = texto.split "\n" #separa todas as palavras pela quebra de linha
+    numero_escolhido = rand(todas_as_palavras.size)
+    palavra_secreta = todas_as_palavras[numero_escolhido].downcase # transforma tudo em minusculo
+    avisa_palavra_escolhida palavra_secreta
+end
+
+#na primeira linha informamos a quantidade de palavras
+def escolhe_palavra_secreta_sem_consumir_muita_memoria
+    avisa_escolhendo_palavra
+    arquivo = File.new("C:/workspace/alura/ruby/jogo-da-forca/dicionario_numero_de_dados.txt")
+    quantidade_de_palavras = arquivo.gets.to_i
+    numero_escolhido = rand(quantidade_de_palavras)
+    for linha in 1..(numero_escolhido-1)
+        arquivo.gets
+    end
+    palavra_secreta = arquivo.gets.strip.downcase # transforma tudo em minusculo e tira quebra de lunha com .strip
+    arquivo.close
+    avisa_palavra_escolhida palavra_secreta
+end
+
+def palavra_mascarada(chutes, palavra_secreta)
+    mascara = ""
+    #para cada letra dentro da palavra secreta
+    for letra in palavra_secreta.chars
+        if chutes.include? letra #chute contem letra?
+            mascara << letra
+        else
+            mascara << "_"
+        end
+    end
+    mascara
+end
+
+def pede_um_chute_valido(erros, chutes, mascara)
+    cabecalho_de_tentativa erros, chutes, mascara
     loop do
         chute = pede_um_chute
         if chutes.include? chute #include semelhante ã contais
@@ -36,7 +73,8 @@ def joga(nome)
     pontos_ate_agora = 0
 
     while erros < 5
-        chute = pede_um_chute_valido erros, chutes
+        mascara = palavra_mascarada chutes, palavra_secreta
+        chute = pede_um_chute_valido erros, chutes, mascara
         chutes << chute
 
         chutou_uma_letra = chute.size == 1
@@ -67,13 +105,26 @@ def joga(nome)
     end
 
     avisa_pontos pontos_ate_agora
+    pontos_ate_agora
 end
 
 def jogo_da_forca
     nome = boas_vindas
+    #armazena os jogadores e pontos
+    pontos_totais = 0
+
+
+    avisa_campeao_atual le_rank
 
     loop do
-        joga nome
+        pontos_totais += joga nome
+        avisa_pontos_totais pontos_totais
+        
+        # le_rank[1] se os pontos do campeao forem menor que os pontos atuais
+        if le_rank[1].to_i < pontos_totais
+            salva_rank nome, pontos_totais
+        end
+        
         if nao_quer_jogar?
             break
         end

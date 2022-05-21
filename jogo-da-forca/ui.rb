@@ -2,19 +2,14 @@
  Toda interface do usuário fica na classe ui  
 =end
 def boas_vindas
-    puts "Bem vindo ao jogo da forca"
+    puts "/****************/"
+    puts "/ Jogo de Forca */"
+    puts "/****************/"
     puts "Qual é o seu nome?"
     nome = gets.strip
     puts "\n"
     puts "Estamos inicializando o jogo, #{nome}"
     nome
-end
-
-def escolhe_palavra_secreta
-    puts "Escolhendo uma palavra secreta..."
-    palavra_secreta = "programador"
-    puts "Palavra secreta com #{palavra_secreta.size} letras... boa sorte!"
-    palavra_secreta
 end
 
 def nao_quer_jogar?
@@ -23,15 +18,17 @@ def nao_quer_jogar?
     nao_quero_jogar = quero_jogar.upcase == "N"    
 end
 
-def cabecalho_de_tentativa(erros, chutes)
+def cabecalho_de_tentativa(erros, chutes, mascara)
     puts "\n"
+    desenha_forca erros
+    puts "Palavra secreta: #{mascara}"
     puts "Erros até agora: #{erros}"
     puts "Chutes até agora: #{chutes}"
 end
 
 def pede_um_chute
     printf "Entre com uma letra ou uma palavra: " 
-    chute = gets.strip
+    chute = gets.strip.downcase
     puts "\n" 
     puts "Você chutou #{chute}"
     chute
@@ -51,6 +48,20 @@ end
 
 def avisa_acertou_palavra
     puts "Parabéns, acertou!!!"
+    puts "\nParabéns, você ganhou!"
+        puts
+
+        puts "       ___________      "
+        puts "      '._==_==_=_.'     "
+        puts "      .-\\:      /-.    "
+        puts "     | (|:.     |) |    "
+        puts "      '-|:.     |-'     "
+        puts "        \\::.    /      "
+        puts "         '::. .'        "
+        puts "           ) (          "
+        puts "         _.' '._        "
+        puts "        '-------'       "
+        puts
 end
 
 def avisa_errou_palavra
@@ -59,4 +70,52 @@ end
 
 def avisa_pontos(pontos_ate_agora)
     puts "Você ganhou #{pontos_ate_agora} pontos."
+end
+
+def avisa_escolhendo_palavra
+    puts "Escolhendo uma palavra secreta..."
+end
+
+def avisa_palavra_escolhida(palavra_secreta)
+    puts "Palavra secreta com #{palavra_secreta.size} letras... boa sorte!"
+    palavra_secreta
+end
+
+def avisa_pontos_totais(pontos_totais)
+    puts "Você possui #{pontos_totais} pontos!"
+end
+
+def avisa_campeao_atual(dados)
+    puts "Nosso campeão atual é #{dados[0]} com #{dados[1]} pontos."    
+end
+
+def desenha_forca(erros)
+    cabeca = "   "
+    corpo = " "
+    pernas = "   "
+    bracos = "   "
+    if erros >= 1
+        cabeca = "(_)"
+    end
+    if erros >= 2
+        bracos = " | "
+        corpo = "|"
+    end
+    if erros >= 3
+        bracos = "\\|/"
+    end
+    if erros >= 4
+        pernas = "/ \\"
+    end
+
+    puts "  _______       "
+    puts " |/      |      "
+    puts " |      #{cabeca}  "
+    puts " |      #{bracos}  "
+    puts " |       #{corpo}  "
+    puts " |      #{pernas}  "
+    puts " |              "
+    puts "_|___           "
+    puts
+
 end
