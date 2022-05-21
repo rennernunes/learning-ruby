@@ -23,12 +23,16 @@ def nao_quer_jogar?
     nao_quero_jogar = quero_jogar.upcase == "N"    
 end
 
-def pede_um_chute(erros, chutes)
+def cabecalho_de_tentativa(erros, chutes)
     puts "\n"
     puts "Erros até agora: #{erros}"
     puts "Chutes até agora: #{chutes}"
+end
+
+def pede_um_chute
     printf "Entre com uma letra ou uma palavra: " 
-    chute = gets.strip    
+    chute = gets.strip
+    puts "\n" 
     puts "Você chutou #{chute}"
     chute
 end

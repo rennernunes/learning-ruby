@@ -16,6 +16,19 @@ def conta(texto, letra)
 end
 =end
 
+def pede_um_chute_valido(erros, chutes)
+    cabecalho_de_tentativa erros, chutes
+    loop do
+        chute = pede_um_chute
+        if chutes.include? chute #include semelhante ã contais
+            avisa_chute_efetuado chute
+            #next #pula direto para próxima interaçao do laço
+        else
+            return chute
+        end
+    end
+end
+
 def joga(nome)
     palavra_secreta = escolhe_palavra_secreta
     erros = 0
@@ -23,11 +36,7 @@ def joga(nome)
     pontos_ate_agora = 0
 
     while erros < 5
-        chute = pede_um_chute erros, chutes
-        if chutes.include? chute
-            avisa_chute_efetuado chute
-            next #pula direto para próxima interaçao do laço
-        end
+        chute = pede_um_chute_valido erros, chutes
         chutes << chute
 
         chutou_uma_letra = chute.size == 1
