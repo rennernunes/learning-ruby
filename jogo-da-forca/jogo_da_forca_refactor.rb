@@ -1,35 +1,4 @@
-def boas_vindas
-    puts "Bem vindo ao jogo da forca"
-    puts "Qual é o seu nome?"
-    nome = gets.strip
-    puts "\n"
-    puts "Estamos inicializando o jogo, #{nome}"
-    nome
-end
-
-def escolhe_palavra_secreta
-    puts "Escolhendo uma palavra secreta..."
-    palavra_secreta = "programador"
-    puts "Palavra secreta com #{palavra_secreta.size} letras... boa sorte!"
-    palavra_secreta
-end
-
-def nao_quer_jogar?
-    puts "Deseja jogar novamente? (S/N)"
-    quero_jogar = gets.strip
-    nao_quero_jogar = quero_jogar.upcase == "N"    
-end
-
-def pede_um_chute(erros, chutes)
-    puts "\n"
-    puts "Erros até agora: #{erros}"
-    puts "Chutes até agora: #{chutes}"
-    printf "Entre com uma letra ou uma palavra: " 
-    chute = gets.strip    
-    puts "Você chutou #{chute}"
-    chute
-end
-
+require_relative 'ui' #procura no mesmo diretorio
 =begin
 já existe uma funçao para contar caracteres em ruby .count exemplo como fazer manualmente 
 
@@ -56,7 +25,7 @@ def joga(nome)
     while erros < 5
         chute = pede_um_chute erros, chutes
         if chutes.include? chute
-            puts "Você já chutou #{chute}"
+            avisa_chute_efetuado chute
             next #pula direto para próxima interaçao do laço
         end
         chutes << chute
@@ -69,26 +38,26 @@ def joga(nome)
             total_encontrado = palavra_secreta.count letra_procurada
 
            if total_encontrado == 0
-               puts "Letra não encontrada."
-               erros += 1
-           else 
-                puts "Letra encontrada #{total_encontrado} vezes."
+            avisa_letra_nao_encontrada
+            erros += 1
+           else
+            avisa_letra_encontrada total_encontrado
            end
         else
             acertou = chute == palavra_secreta
             if acertou
-                puts "Parabéns, acertou!!!"
+                avisa_acertou_palavra
                 pontos_ate_agora += 100
                 break                 
             else
-                puts "Errou... tente novamente!"
+                avisa_errou_palavra
                 pontos_ate_agora -= 30
                 erros += 1
             end
         end
     end
 
-    puts "Você ganhou #{pontos_ate_agora} pontos."
+    avisa_pontos pontos_ate_agora
 end
 
 nome = boas_vindas
