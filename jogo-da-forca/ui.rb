@@ -1,3 +1,6 @@
+=begin
+ Toda interface do usuário fica na classe ui  
+=end
 def boas_vindas
     puts "Bem vindo ao jogo da forca"
     puts "Qual é o seu nome?"
