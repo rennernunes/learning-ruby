@@ -1,0 +1,7 @@
+# Terminal: bundle init cria arquivo de dependências do projeto
+# Terminal: bundle install instala as gems nesse arquivo
+
+source "https://rubygems.org"
+gem "rspec"
+
+# rspec --init cria a estrutura do projeto
